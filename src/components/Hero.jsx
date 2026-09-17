@@ -1,28 +1,35 @@
-import { Suspense, lazy } from "react";
-import { profile } from "../data/portfolio";
-import { ArrowIcon, GithubIcon, LinkedinIcon, FacebookIcon, MailIcon, PinIcon } from "./Icons";
+import { heroStats, profile } from "../data/portfolio";
+import {
+  ArrowIcon,
+  FacebookIcon,
+  GithubIcon,
+  LinkedinIcon,
+  MailIcon,
+  PinIcon,
+  SparkIcon,
+} from "./Icons";
 import { useTilt } from "./hooks";
-
-const Scene3D = lazy(() => import("./Scene3D"));
+import Scene from "./three/Scene";
 
 export default function Hero() {
-  const tiltRef = useTilt(9);
+  const tiltRef = useTilt(8);
 
   return (
     <section className="hero section" id="home">
-      <div className="hero__bg" aria-hidden />
-
-      <div className="hero__scene" aria-hidden>
-        <Suspense fallback={null}>
-          <Scene3D />
-        </Suspense>
+      <div className="hero__blobs" aria-hidden>
+        <span className="blob blob--1" />
+        <span className="blob blob--2" />
+        <span className="blob blob--3" />
       </div>
+
       <div className="container hero__grid">
         <div className="hero__text">
-          <p className="hero__hi reveal">Hi, I&apos;m</p>
+          <p className="hero__badge reveal">
+            <span className="hero__pulse" aria-hidden />
+          </p>
 
           <h1 className="hero__name reveal" data-delay="60">
-            {profile.name}
+            Hi, I&apos;m <span>Ramin Ahmed</span>
           </h1>
 
           <div className="hero__roles reveal" data-delay="110">
@@ -30,7 +37,10 @@ export default function Hero() {
             <span className="hero__role-sep" aria-hidden>
               ·
             </span>
-            <div className="hero__rotator" aria-label={profile.roles.join(", ")}>
+            <div
+              className="hero__rotator"
+              aria-label={profile.roles.join(", ")}
+            >
               {profile.roles.map((role, i) => (
                 <span key={role} style={{ animationDelay: `${i * 3.6}s` }}>
                   {role}
@@ -51,24 +61,40 @@ export default function Hero() {
               View My Projects
               <ArrowIcon className="btn__icon" />
             </a>
-            <a className="btn btn--outline" href="#contact">
-              Contact Me
+            <a className="btn btn--soft" href="#contact">
+              <SparkIcon className="btn__icon" />
+              Hire Me
             </a>
           </div>
 
           <ul className="hero__socials reveal" data-delay="280">
             <li>
-              <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+              >
                 <GithubIcon />
               </a>
             </li>
             <li>
-              <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+              >
                 <LinkedinIcon />
               </a>
             </li>
             <li>
-              <a href={profile.facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
+              <a
+                href={profile.facebook}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+              >
                 <FacebookIcon />
               </a>
             </li>
@@ -80,41 +106,43 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="hero__media reveal" data-delay="140">
-          <div className="hero__photo-frame tilt" ref={tiltRef}>
-            <div className="hero__photo-glow" aria-hidden />
-            <img
-              src={profile.photo}
-              alt={`Portrait of ${profile.name}`}
-              width="640"
-              height="800"
-              loading="eager"
-              decoding="async"
-            />
-            <div className="hero__photo-tag">
-              <span className="hero__dot" aria-hidden />
-              Open to internships
-            </div>
-          </div>
+        <div className="hero__stage reveal" data-delay="140">
+          <Scene
+            name="hero"
+            className="hero__scene"
+            camera={{ position: [0, 0, 6.2], fov: 44 }}
+          />
 
-          <div className="hero__chip hero__chip--1">
-            <strong>Next.js</strong>
-            <span>+ TypeScript</span>
-          </div>
-          <div className="hero__chip hero__chip--2">
-            <strong>MERN</strong>
-            <span>Stack</span>
+          <div className="hero__photo tilt" ref={tiltRef}>
+            <div className="tilt__inner">
+              <img
+                src={profile.photo}
+                alt={`Portrait of ${profile.name}`}
+                width="520"
+                height="650"
+                loading="eager"
+                decoding="async"
+              />
+              <span className="hero__photo-ring" aria-hidden />
+            </div>
+            <span className="tilt__glare" aria-hidden />
           </div>
         </div>
       </div>
 
-      <div className="container hero__meta">
-        <span className="hero__meta-item">
-          <PinIcon /> {profile.location}
-        </span>
-        <span className="hero__meta-item">
-          <MailIcon /> {profile.email}
-        </span>
+      <div className="container">
+        <ul className="hero__stats reveal" data-delay="320">
+          {heroStats.map((s) => (
+            <li key={s.label}>
+              <strong>{s.value}</strong>
+              <span>{s.label}</span>
+            </li>
+          ))}
+          <li className="hero__stats-place">
+            <PinIcon />
+            {profile.location}
+          </li>
+        </ul>
       </div>
     </section>
   );

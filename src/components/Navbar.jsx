@@ -1,5 +1,5 @@
 import { navItems, profile } from "../data/portfolio";
-import { MenuIcon, CloseIcon } from "./Icons";
+import { MenuIcon, CloseIcon, SendIcon } from "./Icons";
 
 export default function Navbar({ active, scrolled, open, onToggle, onNavigate }) {
   return (
@@ -7,8 +7,7 @@ export default function Navbar({ active, scrolled, open, onToggle, onNavigate })
       <header className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
         <div className="container nav__inner">
           <a className="nav__brand" href="#home" onClick={onNavigate}>
-            <span className="nav__mark">{profile.initials}</span>
-            <span className="nav__name">{profile.name}</span>
+            {profile.brand}
           </a>
 
           <nav className="nav__links" aria-label="Primary">
@@ -23,7 +22,8 @@ export default function Navbar({ active, scrolled, open, onToggle, onNavigate })
             ))}
           </nav>
 
-          <a className="nav__cta" href={`mailto:${profile.email}`}>
+          <a className="nav__cta" href="#contact">
+            <SendIcon />
             Hire me
           </a>
 
@@ -58,6 +58,10 @@ export default function Navbar({ active, scrolled, open, onToggle, onNavigate })
             </a>
           ))}
         </nav>
+        <a className="mobile-menu__hire" href="#contact" onClick={onNavigate}>
+          <SendIcon />
+          Hire me
+        </a>
         <a className="mobile-menu__mail" href={`mailto:${profile.email}`}>
           {profile.email}
         </a>

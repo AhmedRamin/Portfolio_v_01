@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
+export const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 /** Adds `is-visible` to every `.reveal` element once it enters the viewport. */
 export function useReveal() {
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll(".reveal"));
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reduced || !("IntersectionObserver" in window)) {
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
       nodes.forEach((n) => n.classList.add("is-visible"));
       return;
     }
@@ -34,10 +36,7 @@ export function useActiveSection(ids) {
   const [active, setActive] = useState(ids[0]);
 
   useEffect(() => {
-    const sections = ids
-      .map((id) => document.getElementById(id))
-      .filter(Boolean);
-
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
     if (!sections.length || !("IntersectionObserver" in window)) return;
 
     const io = new IntersectionObserver(
@@ -57,10 +56,23 @@ export function useActiveSection(ids) {
   return active;
 }
 
+/** True once the page has scrolled past `offset` px. */
+export function useScrolled(offset = 24) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > offset);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [offset]);
+
+  return scrolled;
+}
+
 /**
- * Mouse-driven 3D tilt. Attach the returned ref to any element with the
- * `tilt` class — it writes --rx / --ry / --mx / --my CSS variables.
- * Disabled for touch devices and reduced-motion users.
+ * Mouse-driven 3D tilt. Attach the ref to an element with the `tilt` class —
+ * it writes --rx / --ry / --mx / --my. Off on touch + reduced motion.
  */
 export function useTilt(max = 12) {
   const ref = useRef(null);
@@ -68,10 +80,7 @@ export function useTilt(max = 12) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || reduced) return;
+    if (!window.matchMedia("(pointer: fine)").matches || prefersReducedMotion()) return;
 
     let frame = 0;
 
@@ -106,16 +115,39 @@ export function useTilt(max = 12) {
   return ref;
 }
 
-/** True once the page has scrolled past `offset` px. */
-export function useScrolled(offset = 24) {
-  const [scrolled, setScrolled] = useState(false);
+/** True while the element is within (or near) the viewport. */
+export function useInView(margin = "200px") {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > offset);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [offset]);
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setInView(true);
+      return;
+    }
 
-  return scrolled;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: margin }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [margin]);
+
+  return [ref, inView];
+}
+
+/** WebGL availability check. */
+export function supportsWebGL() {
+  try {
+    const c = document.createElement("canvas");
+    return !!(
+      window.WebGLRenderingContext &&
+      (c.getContext("webgl") || c.getContext("experimental-webgl"))
+    );
+  } catch {
+    return false;
+  }
 }

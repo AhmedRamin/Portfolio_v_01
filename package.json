@@ -1,5 +1,5 @@
 {
-  "name": "ramin-portfolio",
+  "name": "ramin-portfolio-light",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,11 +9,11 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
-    "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.18.0",
+    "@react-three/drei": "^9.120.4",
+    "@react-three/fiber": "^8.17.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "three": "^0.186.0"
+    "three": "^0.168.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",

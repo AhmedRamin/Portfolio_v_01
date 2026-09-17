@@ -1,6 +1,6 @@
 export const profile = {
   name: "Ramin Ahmed",
-  initials: "RA",
+  brand: "R@min's Portfolio",
   title: "Aspiring Software Engineer",
   subtitle: "Full Stack Web Developer",
   roles: [
@@ -20,6 +20,9 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/raminahmed--/",
 };
 
+/** Where contact-form submissions are delivered. */
+export const contactEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
+
 export const navItems = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
@@ -27,6 +30,12 @@ export const navItems = [
   { id: "projects", label: "Projects" },
   { id: "education", label: "Education" },
   { id: "contact", label: "Contact" },
+];
+
+export const heroStats = [
+  { value: "20+", label: "Technologies" },
+  { value: "50+", label: "Projects built" },
+  { value: "10+", label: "Working Project" },
 ];
 
 export const about = {
@@ -49,26 +58,31 @@ export const skills = [
   {
     group: "Frontend",
     icon: "layout",
+    tone: "#6d5cff",
     items: ["HTML", "CSS", "JavaScript", "React.js", "Next.js", "Tailwind CSS"],
   },
   {
     group: "Backend",
     icon: "server",
+    tone: "#06b6d4",
     items: ["Node.js", "Express.js", "REST APIs", "EJS"],
   },
   {
     group: "Database",
     icon: "database",
+    tone: "#10b981",
     items: ["MongoDB", "Mongoose", "MySQL"],
   },
   {
     group: "Programming",
     icon: "code",
+    tone: "#f59e0b",
     items: ["C", "C++", "Java", "Python", "PHP"],
   },
   {
     group: "Tools",
     icon: "terminal",
+    tone: "#ec4899",
     items: ["Git", "GitHub", "Linux", "Postman"],
   },
 ];
@@ -80,8 +94,8 @@ export const projects = [
     description:
       "A full-stack money management application designed to help users track income, expenses, investments, and loans. Built to simplify personal financial management through organized accounts, transaction tracking, and visual insights.",
     tech: ["Node.js", "Express.js", "MongoDB", "Supabase"],
-    link: profile.github,
-    accent: "#4f7cff",
+    link: "https://github.com/AhmedRamin/expenza",
+    tone: "#6d5cff",
   },
   {
     title: "Rascript",
@@ -90,7 +104,7 @@ export const projects = [
       "A custom programming language developed as a Compiler Design project using Flex, Bison, and C. It supports basic programming constructs such as conditions, loops, output statements, and symbol table management.",
     tech: ["C", "Flex", "Bison"],
     link: profile.github,
-    accent: "#8b5cf6",
+    tone: "#06b6d4",
   },
   {
     title: "Dropit Courier Service",
@@ -99,7 +113,7 @@ export const projects = [
       "A MySQL-based courier service database system designed to manage customers, branches, parcel tracking, pricing, and payments. It demonstrates database design, relationships, triggers, and stored procedures.",
     tech: ["MySQL", "SQL"],
     link: profile.github,
-    accent: "#22b8a6",
+    tone: "#10b981",
   },
 ];
 
@@ -111,7 +125,12 @@ export const education = [
     period: "2024 — Present",
     description:
       "Currently pursuing my undergraduate degree, with a focus on programming, software development, databases, and computer networking.",
-    subjects: ["Programming", "Software Development", "Databases", "Networking"],
+    subjects: [
+      "Programming",
+      "Software Development",
+      "Databases",
+      "Networking",
+    ],
   },
   {
     school: "Hamdard Public College",
@@ -139,4 +158,11 @@ export const learning = [
   { title: "Artificial Intelligence & Machine Learning", note: "Next goal" },
   { title: "Networking & Cybersecurity", note: "Exploring" },
   { title: "Data Structures & Algorithms", note: "Practising" },
+];
+
+export const contactSubjects = [
+  "Job opportunity / Internship",
+  "Freelance project",
+  "Collaboration",
+  "Just saying hi",
 ];

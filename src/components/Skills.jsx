@@ -1,12 +1,18 @@
 import { skills } from "../data/portfolio";
 import { GroupIcon } from "./Icons";
 import { useTilt } from "./hooks";
+import Scene from "./three/Scene";
 
 function SkillCard({ group, index }) {
-  const ref = useTilt(12);
+  const ref = useTilt(11);
 
   return (
-    <article ref={ref} className="skill-card tilt reveal" data-delay={index * 70}>
+    <article
+      ref={ref}
+      className="skill-card tilt reveal"
+      data-delay={index * 70}
+      style={{ "--tone": group.tone }}
+    >
       <div className="tilt__inner">
         <div className="skill-card__top">
           <span className="skill-card__icon">
@@ -28,11 +34,16 @@ function SkillCard({ group, index }) {
 
 export default function Skills() {
   return (
-    <section className="section section--alt" id="skills">
+    <section className="section section--tint" id="skills">
       <div className="container">
-        <header className="section__head reveal">
-          <span className="section__eyebrow">02 — What I work with</span>
-          <h2 className="section__title">Skills</h2>
+        <header className="section__head section__head--split reveal">
+          <div>
+            <span className="section__eyebrow">02 — What I work with</span>
+            <h2 className="section__title">
+              My <em>Skills</em>
+            </h2>
+          </div>
+          <Scene name="orbit" className="section__scene" camera={{ position: [0, 0, 5.4], fov: 44 }} />
         </header>
 
         <div className="skills__grid">

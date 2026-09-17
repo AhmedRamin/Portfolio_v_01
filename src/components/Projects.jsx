@@ -1,21 +1,21 @@
 import { projects } from "../data/portfolio";
 import { ArrowIcon, GithubIcon } from "./Icons";
 import { useTilt } from "./hooks";
+import Scene from "./three/Scene";
 
 function ProjectCard({ project, index }) {
-  const ref = useTilt(10);
+  const ref = useTilt(9);
 
   return (
     <article
       ref={ref}
       className="project-card tilt reveal"
       data-delay={index * 90}
-      style={{ "--accent-card": project.accent }}
+      style={{ "--tone": project.tone }}
     >
       <div className="tilt__inner">
         <div className="project-card__art" aria-hidden>
-          <span className="project-card__orb" />
-          <span className="project-card__grid" />
+          <span className="project-card__blob" />
           <span className="project-card__num">{String(index + 1).padStart(2, "0")}</span>
         </div>
 
@@ -30,19 +30,13 @@ function ProjectCard({ project, index }) {
             ))}
           </ul>
 
-          <a
-            className="project-card__link"
-            href={project.link}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a className="project-card__link" href={project.link} target="_blank" rel="noreferrer">
             <GithubIcon />
             View Project
             <ArrowIcon className="project-card__arrow" />
           </a>
         </div>
       </div>
-
       <span className="tilt__glare" aria-hidden />
     </article>
   );
@@ -52,13 +46,18 @@ export default function Projects() {
   return (
     <section className="section" id="projects">
       <div className="container">
-        <header className="section__head reveal">
-          <span className="section__eyebrow">03 — Selected work</span>
-          <h2 className="section__title">Projects</h2>
-          <p className="section__lead">
-            Things I have designed and built while studying — from full-stack applications to
-            compilers and database systems.
-          </p>
+        <header className="section__head section__head--split reveal">
+          <div>
+            <span className="section__eyebrow">03 — Selected work</span>
+            <h2 className="section__title">
+              My <em>Projects</em>
+            </h2>
+            <p className="section__lead">
+              Things I have designed and built while studying — from full-stack applications to
+              compilers and database systems.
+            </p>
+          </div>
+          <Scene name="panels" className="section__scene" camera={{ position: [0, 0, 5.2], fov: 44 }} />
         </header>
 
         <div className="projects__grid">

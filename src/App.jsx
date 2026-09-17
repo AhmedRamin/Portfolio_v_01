@@ -7,7 +7,7 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Education from "./components/Education";
 import Learning from "./components/Learning";
-import Contact from "./components/Contact";
+import ContactForm from "./components/ContactForm";
 import Footer from "./components/Footer";
 import { useActiveSection, useReveal, useScrolled } from "./components/hooks";
 
@@ -15,6 +15,7 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const active = useActiveSection(navItems.map((n) => n.id));
   const scrolled = useScrolled(24);
+
   useReveal();
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function App() {
         <Projects />
         <Education />
         <Learning />
-        <Contact />
+        <ContactForm />
       </main>
       <Footer />
     </>
